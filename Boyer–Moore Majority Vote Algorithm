@@ -1,0 +1,111 @@
+
+
+# 📝 Boyer–Moore Majority Vote Algorithm
+
+---
+
+## 📌 Problem Context
+
+* **Typical Problem**: Find the **majority element** (appears more than ⌊n/2⌋ times).
+* **LeetCode Example**: [169. Majority Element](https://leetcode.com/problems/majority-element/)
+* **Guarantee**: Majority element always exists.
+
+---
+
+## 🎯 Intuition
+
+* Imagine pairing different elements against each other.
+* Since the majority element appears **more than half the time**, it **cannot be completely canceled out**.
+* After all “cancellations,” the element left is the majority.
+
+---
+
+## ⚡ Algorithm Steps
+
+Maintain two variables:
+
+1. `candidate` → stores the current guess.
+2. `count` → balance counter.
+
+Process each number in the array:
+
+1. If `count == 0`, set `candidate = num`.
+2. If `num == candidate`, increment `count`.
+3. Else, decrement `count`.
+
+At the end, `candidate` is the majority element.
+
+---
+
+## ✅ Dry Run Example
+
+Input: `nums = [2,2,1,1,1,2,2]`
+
+| Step | num | candidate | count | Action                  |
+| ---- | --- | --------- | ----- | ----------------------- |
+| 1    | 2   | 2         | 1     | candidate chosen        |
+| 2    | 2   | 2         | 2     | same → count++          |
+| 3    | 1   | 2         | 1     | diff → count--          |
+| 4    | 1   | 2         | 0     | diff → count--          |
+| 5    | 1   | 1         | 1     | count=0 → new candidate |
+| 6    | 2   | 1         | 0     | diff → count--          |
+| 7    | 2   | 2         | 1     | count=0 → new candidate |
+
+Final Answer → `2`
+
+---
+
+## 🖥️ Code (Python)
+
+```python
+class Solution:
+    def majorityElement(self, nums: List[int]) -> int:
+        candidate, count = None, 0
+        for num in nums:
+            if count == 0:
+                candidate = num
+            count += 1 if num == candidate else -1
+        return candidate
+```
+
+---
+
+## ⏱ Complexity
+
+* **Time**: O(n) → single pass.
+* **Space**: O(1) → only two variables.
+
+---
+
+## ⚠️ Limitations
+
+* Works **only if a majority element exists**.
+* If not guaranteed, you must run an **extra verification pass** at the end:
+
+```python
+if nums.count(candidate) > len(nums)//2:
+    return candidate
+else:
+    return None
+```
+
+---
+
+## 🔮 Generalization
+
+* For finding elements appearing **> ⌊n/3⌋** → maintain 2 candidates + counts.
+* For **> ⌊n/k⌋** → maintain `k-1` candidates + counts.
+
+---
+
+## 🧠 Key Interview Notes
+
+* Sorting solution: `nums[n//2]` also works but is O(n log n).
+* Hash map solution: O(n) time, O(n) space.
+* Boyer–Moore is **optimal**: O(n) time, O(1) space.
+* Think of it as “canceling out votes.”
+
+---
+
+✅ This covers **intuition, dry run, code, complexity, limitations, generalization, and interview notes**.
+
