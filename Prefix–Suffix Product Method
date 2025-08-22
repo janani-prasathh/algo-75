@@ -1,0 +1,38 @@
+Prefix–Suffix Product Method
+🔹 Definition
+The Prefix–Suffix Product Method is an array-based technique where we precompute values from the left (prefix) and right (suffix) sides of an array, and then combine them to get the result for each index.
+Instead of recalculating products/sums repeatedly, we store them once and reuse them.
+🔹 When to Use
+Use this method when:
+You need the result for each index that depends on all other elements except the current one.
+Example: Product of Array Except Self (LeetCode 238).
+You need to compute aggregate values from both directions (left & right).
+Example: Trapping Rain Water (using prefix max and suffix max).
+Division is not allowed (or unsafe due to zeros).
+The array size is large (n ≤ 10^5 or more) and an O(n²) approach would be too slow.
+🔹 How It Works
+Build a prefix array where prefix[i] = product/sum of all elements before index i.
+Build a suffix array where suffix[i] = product/sum of all elements after index i.
+For each index i, combine:
+
+result[i]=prefix[i]×suffix[i]
+(or sum, depending on the problem).
+🔹 Example — Product of Array Except Self
+Input: nums = [1, 2, 3, 4]
+Prefix: [1, 1, 2, 6]
+Suffix: [24, 12, 4, 1]
+Result: [24, 12, 8, 6]
+🔹 Time & Space Complexity
+Time Complexity: O(n)
+Space Complexity: O(n) with prefix + suffix arrays.
+Can be optimized to O(1) extra space using only one output array + one running variable for suffix.
+🔹 Common Problems Using This
+Product of Array Except Self (LC 238)
+Trapping Rain Water (LC 42) — prefix max & suffix max.
+Candy Distribution variants
+Some range queries problems (when no segment tree is used).
+🔹 Pitfalls / Mistakes
+Forgetting to initialize prefix[0] = 1 and suffix[n-1] = 1.
+Mixing up indices when building suffix.
+Not optimizing space (carrying extra O(n) arrays when O(1) is possible).
+✅ In short: Use Prefix–Suffix Product Method whenever you need to compute results for each index based on “all others” efficiently, especially when division is not allowed or when left+right contributions are required.
